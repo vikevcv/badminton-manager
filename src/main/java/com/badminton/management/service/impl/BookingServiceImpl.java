@@ -125,4 +125,12 @@ public class BookingServiceImpl implements BookingService{
     public List<com.badminton.management.model.dto.MonthlyRevenueDTO> getMonthlyRevenueReport() {
         return bookingDAO.getMonthlyRevenueReport();
     }
+    @Override
+    public int getCountBooingToday(){
+        return bookingDAO.getCountBookingToday();
+    }
+    @Override
+    public com.badminton.management.model.dto.MonthlyRevenueDTO getCurrentMonthRevenueReport(){
+        return bookingDAO.getCurrentMonthRevenueReport();
+    }
 }

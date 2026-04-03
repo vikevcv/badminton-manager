@@ -55,4 +55,12 @@ public class CustomerServiceImpl implements CustomerService {
             return 1; // Fallback an toàn
         }
     }
+    @Override
+    public long getCountCustomer(){
+        return customerDAO.getCountCustomer();
+    }
+    @Override
+    public Customer getCustomerWithAccountID(int accountID){
+        return customerDAO.findByAccountId(accountID);
+    }
 }

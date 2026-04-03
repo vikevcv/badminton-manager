@@ -12,5 +12,5 @@ public interface CourtService {
     String addCourt(Court court);
     String updateCourt(Court court);
     String deleteCourt(int courtId);
-
+    int getAvailableCourtNow();
 }

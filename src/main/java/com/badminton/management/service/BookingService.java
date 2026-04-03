@@ -19,4 +19,6 @@ public interface BookingService {
     boolean deleteBooking(int id);
     List<com.badminton.management.model.dto.BookingRevenueDTO> getRevenueReport();
     List<com.badminton.management.model.dto.MonthlyRevenueDTO> getMonthlyRevenueReport();
+    int getCountBooingToday();
+    com.badminton.management.model.dto.MonthlyRevenueDTO getCurrentMonthRevenueReport();
 }

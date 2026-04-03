@@ -55,5 +55,8 @@ public class CourtServiceImpl implements CourtService{
             return "Không thể xóa sân này vì đã có lịch sử đặt sân! \nGợi ý: Hãy chuyển trạng thái sân thành BẢO TRÌ thay vì xóa.";
         }
     }
-    
+    @Override
+    public int getAvailableCourtNow(){
+        return courtDAO.getRealTimeAvailableCount();
+    }
 }

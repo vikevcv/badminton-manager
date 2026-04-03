@@ -12,4 +12,5 @@ public interface CustomerDAO {
     Customer findByPhone(String phone);
     List<Customer> findAll();
     List<Customer> findByName(String name);
+    long getCountCustomer();
 } 

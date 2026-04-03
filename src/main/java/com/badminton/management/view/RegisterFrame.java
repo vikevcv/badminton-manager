@@ -36,7 +36,7 @@ public class RegisterFrame extends JFrame {
         formPanel.add(txtPhone);
 
         formPanel.add(new JLabel("Loại khách hàng:"));
-        cbType = new JComboBox<>(CustomerType.values()); // Lấy tự động từ Enum của bạn
+        cbType = new JComboBox<>(CustomerType.values()); // Lấy tự động từ Enum 
         formPanel.add(cbType);
 
         formPanel.add(new JLabel("Tên đăng nhập:"));
@@ -60,10 +60,10 @@ public class RegisterFrame extends JFrame {
     }
 
     // API CHO CONTROLLER 
-    public String getUsername() { return txtUsername.getText().trim(); }
+    public String getUsername() { return txtUsername.getText(); }
     public String getPassword() { return new String(txtPassword.getPassword()); }
-    public String getFullName() { return txtFullName.getText().trim(); }
-    public String getPhone() { return txtPhone.getText().trim(); }
+    public String getFullName() { return txtFullName.getText(); }
+    public String getPhone() { return txtPhone.getText(); }
     public CustomerType getCustomerType() { return (CustomerType) cbType.getSelectedItem(); }
 
     public void addSubmitListener(ActionListener listener) { btnSubmit.addActionListener(listener); }

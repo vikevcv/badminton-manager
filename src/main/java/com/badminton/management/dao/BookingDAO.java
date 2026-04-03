@@ -18,4 +18,6 @@ public interface BookingDAO {
     List<Booking> findOverlappingBookings(int courtId, LocalDate date, LocalTime start, LocalTime end);
     List<com.badminton.management.model.dto.BookingRevenueDTO> getRevenueReport();
     List<com.badminton.management.model.dto.MonthlyRevenueDTO> getMonthlyRevenueReport();
+    int getCountBookingToday();
+    com.badminton.management.model.dto.MonthlyRevenueDTO getCurrentMonthRevenueReport();
 }

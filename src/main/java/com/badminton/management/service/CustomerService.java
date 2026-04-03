@@ -11,4 +11,6 @@ public interface CustomerService {
     String updateCustomer(Customer customer);
     String deleteCustomer(int customerId);
     int getOrCreateWalkInCustomer(CustomerType type);
+    long getCountCustomer();
+    Customer getCustomerWithAccountID(int accountID);
 }

@@ -11,4 +11,5 @@ public interface CourtDAO {
     Court findById(int id);
     List<Court> findAll();
     List<Court> findByStatus(CourtStatus status);
+    int getRealTimeAvailableCount();
 }

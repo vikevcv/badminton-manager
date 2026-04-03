@@ -5,84 +5,119 @@ import com.badminton.management.dao.CourtDAO;
 import com.badminton.management.model.entity.Court;
 import com.badminton.management.model.enumtype.CourtStatus;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import jakarta.persistence.EntityManager;
 
-public class CourtDAOImpl implements CourtDAO{
+public class CourtDAOImpl implements CourtDAO {
     @Override
-    public void save(Court court){
+    public void save(Court court) {
         EntityManager em = JpaUtil.getEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.persist(court);
             em.getTransaction().commit();
         } catch (Exception e) {
-            if(em.getTransaction().isActive()) em.getTransaction().rollback();
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
         } finally {
             em.close();
         }
     }
 
     @Override
-    public void update(Court court){
+    public void update(Court court) {
         EntityManager em = JpaUtil.getEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(court);
             em.getTransaction().commit();
-        }catch (Exception e){
-            if(em.getTransaction().isActive()){
+        } catch (Exception e) {
+            if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-        }finally{
-            em.close();
-        }
-    }
-    @Override
-    public void delete(int id){
-        EntityManager em = JpaUtil.getEntityManager();
-        try{
-            em.getTransaction().begin();
-            Court court = em.find(Court.class, id);
-            if(court != null){
-                em.remove(court);
-            }
-            em.getTransaction().commit();
-        } catch (Exception e){
-            if(em.getTransaction().isActive()) em.getTransaction().rollback();
         } finally {
             em.close();
         }
     }
+
     @Override
-    public Court findById(int id){
+    public void delete(int id) {
         EntityManager em = JpaUtil.getEntityManager();
-        try{
+        try {
+            em.getTransaction().begin();
+            Court court = em.find(Court.class, id);
+            if (court != null) {
+                em.remove(court);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            if (em.getTransaction().isActive())
+                em.getTransaction().rollback();
+        } finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public Court findById(int id) {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
             Court court = em.find(Court.class, id);
             return court;
         } finally {
             em.close();
         }
     }
+
     @Override
-    public List<Court> findAll(){
+    public List<Court> findAll() {
         EntityManager em = JpaUtil.getEntityManager();
-        try{
+        try {
             List<Court> list = em.createQuery("SELECT c FROM Court c", Court.class).getResultList();
             return list;
         } finally {
             em.close();
         }
     }
+
     @Override
-    public List<Court> findByStatus(CourtStatus status){
+    public List<Court> findByStatus(CourtStatus status) {
         EntityManager em = JpaUtil.getEntityManager();
-        try{
+        try {
             return em.createQuery("SELECT c FROM Court c WHERE c.status = :status", Court.class)
-                .setParameter("status", status)
-                .getResultList();
+                    .setParameter("status", status)
+                    .getResultList();
         } finally {
             em.close();
         }
     }
+
+    @Override
+    public int getRealTimeAvailableCount() {
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            // 1. Lấy tổng số sân
+            long totalCourts = em.createQuery("SELECT COUNT(c) FROM Court c WHERE c.status NOT IN ('BAO_TRI', 'DA_DAT')", Long.class)
+                    .getSingleResult();
+
+            // 2. Đếm số sân đang có lịch ngay lúc này
+            LocalDate today = LocalDate.now();
+            LocalTime now = LocalTime.now();
+            String hql = "SELECT COUNT(DISTINCT b.court) FROM Booking b " +
+                    "WHERE b.bookingDate = :today " +
+                    "AND :now >= b.startTime AND :now <= b.endTime";
+
+            long occupiedCourts = em.createQuery(hql, Long.class)
+                    .setParameter("today", today)
+                    .setParameter("now", now)
+                    .getSingleResult();
+
+            return (int) (totalCourts - occupiedCourts);
+        } finally {
+            em.close();
+        }
+    }
+    
 }

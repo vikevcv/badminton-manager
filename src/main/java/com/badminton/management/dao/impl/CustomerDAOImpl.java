@@ -118,4 +118,13 @@ public class CustomerDAOImpl implements CustomerDAO {
             em.close();
         }
     }
+    @Override
+    public long getCountCustomer(){
+        EntityManager em = JpaUtil.getEntityManager();
+        try {
+            return em.createQuery("SELECT COUNT(c.customerId) FROM Customer c", Long.class).getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
 }

@@ -14,12 +14,13 @@ public class LoginFrame extends JFrame {
         setTitle("Đăng nhập - Quản lý Sân Cầu Lông");
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Đóng cửa sổ này là tắt toàn bộ chương trình (vì đây là màn hình chính lúc đầu).
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null);// đưa frame ra giữa màn hình
         setLayout(new BorderLayout());
 
         // Panel chứa Form nhập liệu
         //Sắp xếp nhãn và ô nhập liệu theo dạng lưới (3 hàng, 2 cột) cho cân đối.
         JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        //canh lề các ô
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         formPanel.add(new JLabel("Tên đăng nhập:"));
@@ -44,7 +45,7 @@ public class LoginFrame extends JFrame {
 
     // Lấy dữ liệu người dùng nhập
     public String getUsername() {
-        return txtUsername.getText().trim();
+        return txtUsername.getText();
     }
 
     public String getPassword() {
